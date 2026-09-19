@@ -1,0 +1,25 @@
+﻿name: Verify ChengIOS package
+
+on:
+  push:
+    branches: [verify/1.2.53]
+
+jobs:
+  package:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Theos and iOS SDK
+        uses: Randomblock1/theos-action@v1
+      - name: Build rootful
+        run: make package FINALPACKAGE=1
+      - name: Build rootless
+        run: |
+          make clean
+          sed -i "s/^Architecture:.*/Architecture: iphoneos-arm64/" control
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+      - name: Validate outputs
+        run: |
+          ls -l packages
+          test -n "$(find packages -maxdepth 1 -name '*_iphoneos-arm.deb' -print -quit)"
+          test -n "$(find packages -maxdepth 1 -name '*_iphoneos-arm64.deb' -print -quit)"
