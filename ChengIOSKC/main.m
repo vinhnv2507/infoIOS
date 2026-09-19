@@ -330,11 +330,13 @@ static NSArray *CIKCDump(NSArray<NSString *> *agrps) {
     NSMutableSet<NSString *> *seen = [NSMutableSet set];
     NSMutableArray<NSString *> *groups = [NSMutableArray array];
     NSMutableSet<NSString *> *seenGrp = [NSMutableSet set];
+    NSMutableSet<NSString *> *allowedGrp = [NSMutableSet set];
     for (NSString *agrp in agrps) {
         if (![agrp isKindOfClass:[NSString class]] || agrp.length == 0 || [agrp isEqualToString:@"*"] || [seenGrp containsObject:agrp]) {
             continue;
         }
         [seenGrp addObject:agrp];
+        [allowedGrp addObject:agrp.lowercaseString];
         [groups addObject:agrp];
     }
     for (id cls in CIKCClasses()) {
@@ -357,6 +359,11 @@ static NSArray *CIKCDump(NSArray<NSString *> *agrps) {
         for (NSDictionary *item in attrs) {
             NSString *agrp = item[(__bridge id)kSecAttrAccessGroup];
             if (CIKCSkipApple(agrp)) {
+                continue;
+            }
+            // collect(nil) is kept as an iOS compatibility fallback, but do
+            // not serialize another app's keychain into this app backup.
+            if (allowedGrp.count > 0 && (![agrp isKindOfClass:[NSString class]] || ![allowedGrp containsObject:agrp.lowercaseString])) {
                 continue;
             }
             NSDictionary *full = CIKCFillData(cls, item);

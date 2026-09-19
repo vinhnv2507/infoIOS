@@ -1,6 +1,6 @@
 Package: com.vinhnv2507.chengios
 Name: ChengIOS
-Version: 1.2.52
+Version: 1.2.53
 Architecture: iphoneos-arm
 Description: Spoofs iOS version, app version, and optional device/location/network/Wi-Fi signals per selected app. Shopee: no tweak injection (captcha-safe wipe only). Default random follows public IP.
 Maintainer: vinhnv2507 <vinhnv2507@users.noreply.github.com>

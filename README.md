@@ -32,6 +32,14 @@ Rồi tìm **ChengIOS** (`com.vinhnv2507.chengios`). Có hai gói:
 
 Kích thước màn hình không bị đổi.
 
+## 1.2.53
+
+- Fix restore Facebook/TikTok: backup day du `Library/Caches`, `tmp` va companion app container dang ton tai
+- Restore keychain theo family mot lan, tranh companion sau wipe mat keychain vua restore cua Facebook/TikTok
+- SQL keychain tuong thich schema `data`/`v_Data`, chi chen cot con ton tai va remap access-group theo app dang cai
+- Restore SQLite truoc, sau do signed Security.framework de securityd dang ky lai token
+- Khong thay doi hook/change-info va khong them lai nut Xoa toan bo app + Safari
+
 ## 1.2.52
 
 - Restore backup: luon doc va khoi phuc ca SecItem va `keychain-sql.plist`; khong bo qua SQL khi signed restore da thanh cong
